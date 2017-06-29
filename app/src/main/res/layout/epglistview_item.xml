@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:descendantFocusability="blocksDescendants"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/EPGContentsLayout">
+
+        <FrameLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="99.5"
+            android:id="@+id/EPCContentLayout">
+
+            <LinearLayout
+
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/EPCContent">
+
+                <FrameLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2.5"
+                    android:id="@+id/ChannelLogo"
+                    android:background="#f2f2f2">
+
+                    <ImageView
+
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@mipmap/ic_launcher"
+                        android:id="@+id/ChannelLogImg" />
+                </FrameLayout>
+
+                <FrameLayout
+
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7.5"
+                    android:id="@+id/EPGL0">
+                    <!--
+                    <HorizontalScrollView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical" />
+                    </HorizontalScrollView>
+                    -->
+                    <LinearLayout
+                        android:orientation="vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/EPGL1"
+                        android:paddingLeft="4dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="6"
+                            android:id="@+id/EPGL2">
+                            <LinearLayout
+                                android:orientation="horizontal"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/EPGL3">
+
+
+                                <LinearLayout
+                                    android:orientation="vertical"
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="8.5"
+                                    android:id="@+id/EPG">
+
+                                    <TextView
+                                        android:textIsSelectable="false"
+                                        android:text="EPGContent"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="6"
+                                        android:id="@+id/programTitleTextView"
+                                        android:gravity="bottom|left"
+                                        android:textSize="@dimen/program_title_font_size"
+                                        android:textColor="@color/program_title_color" />
+
+                                    <TextView
+                                        android:textIsSelectable="false"
+                                        android:text="TextView"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="0dp"
+                                        android:layout_weight="4"
+                                        android:gravity="top|left"
+                                        android:id="@+id/programTimeTextView"
+                                        android:textSize="@dimen/program_category_font_size"
+                                        android:textColor="@color/program_info_color"/>
+
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="vertical">
+
+                                        <ProgressBar
+                                            android:id="@+id/pb_time"
+                                            style="?android:attr/progressBarStyleHorizontal"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:progressBackgroundTint="@color/colorPrimary"
+                                            android:progressTint="@color/colorPrimaryDark" />
+
+                                        <LinearLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="20dp"
+                                            android:orientation="horizontal">
+
+                                            <TextView
+                                                android:id="@+id/tv_start_time"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:gravity="left"
+                                                android:text="00:00"
+                                                android:textColor="@color/program_title_color"
+                                                android:textSize="10sp" />
+                                            <!--
+                                            <TextView
+                                                android:id="@+id/tv_current_time"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:gravity="center_horizontal"
+                                                android:text="00:00"
+                                                android:textColor="@color/program_title_color"
+                                                android:textSize="10sp" />
+                                            -->
+                                            <TextView
+                                                android:id="@+id/tv_end_time"
+                                                android:layout_width="0dp"
+                                                android:layout_height="wrap_content"
+                                                android:layout_weight="1"
+                                                android:gravity="right"
+                                                android:text="00:00"
+                                                android:textColor="@color/program_title_color"
+                                                android:textSize="10sp" />
+                                        </LinearLayout>
+
+                                    </LinearLayout>
+                                </LinearLayout>
+
+
+                                <FrameLayout
+                                    android:layout_width="0dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="2"
+                                    android:id="@+id/BState">
+
+                                    <ImageView
+                                        android:paddingBottom="15dp"
+                                        android:paddingLeft="15dp"
+                                        android:paddingRight="15dp"
+                                        android:paddingTop="15dp"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        app:srcCompat="@mipmap/ic_launcher"
+                                        android:id="@+id/BStateImg" />
+                                </FrameLayout>
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!--
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="0dp"
+                            android:layout_weight="4"
+                            android:id="@+id/BTime">
+
+                            <TextView
+                                android:textIsSelectable="false"
+                                android:text="TextView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:id="@+id/programTimeTextView"
+                                android:textColor="@color/program_info_color"/>
+                        </FrameLayout>
+
+                        -->
+                    </LinearLayout>
+                </FrameLayout>
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:background="@android:color/darker_gray"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+
+        </FrameLayout>
+    </LinearLayout>
+
+</LinearLayout>

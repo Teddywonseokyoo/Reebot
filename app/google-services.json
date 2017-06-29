@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "340369261676",
+    "firebase_url": "https://reebot-test-166808.firebaseio.com",
+    "project_id": "reebot-test-166808",
+    "storage_bucket": "reebot-test-166808.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:340369261676:android:cbcb803cd6b60543",
+        "android_client_info": {
+          "package_name": "com.exp.rb.reebot"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "340369261676-qis0v5chovqoh3gj9n0bdefda3hctic1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBvgzwMgiSdO3VNLSiHaMutPATFARVfbzo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

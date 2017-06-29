@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">REEBOT</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_logout">Logout</string>
+    <string name="accessibility_description">접근성 권한을 필요로 합니다.</string>
+    <string name="edittext_email_hint"><font fgcolor="#cccccc" size="13"> 이메일</font></string>
+    <string name="edittext_pw_hint"><font fgcolor="#cccccc" size="13"> 비밀번호</font></string>
+    <string name="edittext_ssid_hint"><font fgcolor="#cccccc" size="13"> WIFI(AP) 선택 SSID</font></string>
+    <string name="edittext_wifipw_hint"><font fgcolor="#cccccc" size="13"> WIFI 비밀번호</font></string>
+    <string name="cmdialog_text"><font fgcolor="#cccccc" size="13"> 장치 추가</font></string>
+    <string name="cmdialog_title"><font fgcolor="#cccccc" size="13"> 회원가입 완료</font></string>
+
+    <string name="kakao_key">b70138bc6be29095827f1bc61729b4d7</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
