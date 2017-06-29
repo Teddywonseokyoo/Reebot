@@ -1,5 +1,5 @@
 
-**Reboot  APP**
+**Reebot  APP**
 ----------
 
 이 프로그램은 EPG(Electronic Program Guide)와 Remotcotrol을 직관적으로
