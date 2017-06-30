@@ -31,6 +31,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
@@ -129,19 +130,24 @@ public class MainActivity extends AppCompatActivity
     EPGManager epgmanager;
     ListView listview;
 
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        System.out.println("getKeyHash: " + getKeyHash(this));
         FirebaseMessaging.getInstance().subscribeToTopic("reebot");
         pushtoken = FirebaseInstanceId.getInstance().getToken();
         Log.d("TAG", "onTokenRefresh : " + pushtoken);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         final NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         GradientDrawable gd1 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {Color.parseColor("#3fa3f5"),Color.parseColor("#80b33ce9")});
         toolbar.setBackgroundDrawable(gd1);
+
         View headerView = navigationView.getHeaderView(0);
         GradientDrawable gd2 = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, new int[] {Color.parseColor("#80b33ce9"),Color.parseColor("#3fa3f5")});
         headerView.setBackgroundDrawable(gd2);
@@ -438,7 +444,9 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, "onActivityResult : erasedata");
             finish();
             // Handle the camera action
-        } else if (id == R.id.nav_setting) {
+        }
+
+        else if (id == R.id.nav_setting) {
 
             findViewById(R.id.SubLayout).setVisibility(View.VISIBLE);
             findViewById(R.id.MainLayout).setVisibility(View.INVISIBLE);
@@ -446,16 +454,20 @@ public class MainActivity extends AppCompatActivity
             getSupportFragmentManager().beginTransaction().replace(R.id.SubLayout,RBSetting.newInstance(email,acesstoken)).addToBackStack(null).commit();
 
 
-        } else if (id == R.id.nav_manage) {
+        }
+
+
+        else if (id == R.id.nav_manage) {
 
             findViewById(R.id.SubLayout).setVisibility(View.VISIBLE);
             findViewById(R.id.MainLayout).setVisibility(View.INVISIBLE);
             RBBookingManager fr = new RBBookingManager();
             getSupportFragmentManager().beginTransaction().replace(R.id.SubLayout,RBBookingManager.newInstance(email,acesstoken)).addToBackStack(null).commit();
 
-        } else if (id == R.id.nav_send_bug) {
-
         }
+
+        //else if (id == R.id.nav_send_bug) {
+        //}
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

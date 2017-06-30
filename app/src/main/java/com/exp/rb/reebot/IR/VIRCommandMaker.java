@@ -10,6 +10,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
 
     private static final String TAG = "ReeBot(VIRCommandMaker)";
@@ -94,25 +98,45 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                     VIRCommand task = new VIRCommand(this);
                     task.execute(new VIRDataValue(cur_url, "nec", command_signal, sid));
                     */
-                    String[] separated =  command_signal.split(",");
-                    int signal[] = new int[ separated.length];
-                    for(int i = 0 ; i <  separated.length ; i++)
-                    {
-                        signal[i] = Integer.parseInt(separated[i].trim()) ;
-                    }
+                    //String[] separated =  command_signal.split(",");
+                    //int signal[] = new int[ separated.length];
+                    //for(int i = 0 ; i <  separated.length ; i++)
+                    //{
+                    //    signal[i] = Integer.parseInt(separated[i].trim()) ;
+                    //}
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                        // int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-                        //int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
-                        //if (VERSION_MR < 3) {
-                        // Before version of Android 4.4.2
-                        //mCIR.transmit(38, SAMSUNG_POWER_TOGGLE_COUNT);
-                        //} else {
-                        // Later version of Android 4.4.3
-                        Log.d(TAG,"transmit : " +signal);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !("".equals(command_signal)) ) {
+                         int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
+                        int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
                         mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
-                        mCIR.transmit(38000, signal);
+                        if (VERSION_MR < 3) {
+                            //Before version of Android 4.4.2
+                            command_signal = duration2count(38028,command_signal);
+                            String[] separated =  command_signal.split(",");
+                            int signal[] = new int[ separated.length];
+                            for(int i = 0 ; i <  separated.length ; i++)
+                            {
+                                if(!("".equals(separated[0])))
+                                    signal[i] = Integer.parseInt(separated[i].trim()) ;
+                            }
+                            Log.d(TAG, "transmit : " + signal);
+                            mCIR.transmit(38028, signal);
+                        }
+                        else
+                        {
+                            // Later version of Android 4.4.3
+                            String[] separated =  command_signal.split(",");
+                            int signal[] = new int[ separated.length];
+                            for(int i = 0 ; i <  separated.length ; i++)
+                            {
+                                if(!("".equals(separated[0])))
+                                    signal[i] = Integer.parseInt(separated[i].trim()) ;
+                            }
 
+                            Log.d(TAG, "transmit : " + signal);
+
+                            mCIR.transmit(38000, signal);
+                        }
                         cur_index++;
                         if(cur_param.matches("-?\\d+(\\.\\d+)?")&&cur_param.length() >  cur_index  )
                         {
@@ -137,7 +161,7 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
+                vib.vibrate(80);
             }
             else if("nodevice".equals(sid))
             {
@@ -186,26 +210,40 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                     VIRCommand task = new VIRCommand(this);
                     task.execute(new VIRDataValue(cur_url, "nec", command_signal, sid));
                     */
-                    String[] separated =  command_signal.split(",");
-                    int signal[] = new int[ separated.length];
-                    for(int i = 0 ; i <  separated.length ; i++)
-                    {
-                        if(!("".equals(separated[0])))
-                            signal[i] = Integer.parseInt(separated[i].trim()) ;
-                    }
 
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !("".equals(separated[0])) ) {
-                       // int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-                        //int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
-                        //if (VERSION_MR < 3) {
-                            // Before version of Android 4.4.2
-                            //mCIR.transmit(38, SAMSUNG_POWER_TOGGLE_COUNT);
-                        //} else {
-                            // Later version of Android 4.4.3
-                        Log.d(TAG,"transmit : " +signal);
+
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !("".equals(command_signal)) ) {
+                        int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
+                        int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
                         mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
-                        mCIR.transmit(38000, signal);
-                        vib.vibrate(80);
+                        if (VERSION_MR < 3) {
+                             //Before version of Android 4.4.2
+                            command_signal = duration2count(38028 ,command_signal);
+                            String[] separated =  command_signal.split(",");
+                            int signal[] = new int[ separated.length];
+                            for(int i = 0 ; i <  separated.length ; i++)
+                            {
+                                if(!("".equals(separated[0])))
+                                    signal[i] = Integer.parseInt(separated[i].trim()) ;
+                            }
+                            Log.d(TAG, "transmit : " + signal);
+                            mCIR.transmit(38028, signal);
+                        } else {
+                            // Later version of Android 4.4.3
+                            String[] separated =  command_signal.split(",");
+                            int signal[] = new int[ separated.length];
+                            for(int i = 0 ; i <  separated.length ; i++)
+                            {
+                                if(!("".equals(separated[0])))
+                                    signal[i] = Integer.parseInt(separated[i].trim()) ;
+                            }
+
+                            Log.d(TAG, "transmit : " + signal);
+
+                            mCIR.transmit(38000, signal);
+                        }
+
 
                         cur_index++;
                         if(cur_param.matches("-?\\d+(\\.\\d+)?")&&cur_param.length() >  cur_index  )
@@ -231,6 +269,7 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                vib.vibrate(80);
             }
             else if("nodevice".equals(sid))
             {
@@ -897,5 +936,29 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
             Log.d(TAG, "NextCommand ControlMaker : "+cur_device+"+ ENTER  ");
             NControlMaker(cur_device,"ENTER");
         }
+    }
+
+    protected String duration2count(double frequency,String countPattern) {
+        List<String> list = new ArrayList<String>(Arrays.asList(countPattern.split(",")));
+        double pulses = 1000000 / frequency;
+        int count;
+        double duration;
+        //list.remove(0);
+        for (int i = 0; i < list.size(); i++) {
+            count = Integer.parseInt(list.get(i).trim());
+            duration = count / pulses;
+            Double value = new Double(duration);
+            list.set(i, Integer.toString(value.intValue()));
+        }
+
+        String durationPattern = "";
+        for (String s : list) {
+            durationPattern += s + ",";
+        }
+
+        Log.d(TAG, "Frequency: " + frequency);
+        Log.d(TAG, "Duration Pattern: " + durationPattern);
+
+        return durationPattern;
     }
 }

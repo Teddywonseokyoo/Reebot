@@ -311,6 +311,7 @@ public class EPGManagerForJSON extends EPGManager  {
                     String entryInfo = category + " / "+ chnum ;
                     String  chlongo = chname.toString();
                     chlongo = chlongo.replace(" ", "");
+                    Log.d(TAG, "maintitle : ("+ chnum +")" +  maintitle+" / IMG : "+ chname + "/ IMG2 : "+ chlogoname);
                     adapter.addItem(getImage(context,chlongo,chlogoname), ContextCompat.getDrawable(context, R.drawable.unbookmark), title, entryInfo ,chnum,category,category, starttime, endtime,chname) ;
                     //Log.d(TAG, "maintitle : ("+ chnum +")" +  maintitle+" / IMG : "+ chname + "/ IMG2 : "+ chlogoname);
                 }

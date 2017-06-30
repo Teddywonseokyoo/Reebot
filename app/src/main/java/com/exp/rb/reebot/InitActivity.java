@@ -24,6 +24,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.multidex.MultiDex;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
@@ -74,9 +75,11 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import static com.kakao.util.helper.Utility.getPackageInfo;
+
 public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnectorListener, RBEnvConnector.RBSetConnectorListener, RBEnvConnector.RBRegCheckerListener, RBAuthManager.RBAuthManagerListener, RBIRGetSignal.RBIRGetSignalListener {
 
-    private static final boolean demoversion = true;
+    private static final boolean demoversion = false;
     private static final String TAG = "ReeBot(InitActivity)";
     //private String checkregurl = "http://reebot.io:8085/checkreg";
     private String signinurl = "http://reebot.io:8083/auth_api/signin";
@@ -143,6 +146,7 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //MultiDex.install(this);
         initActivity = this;
         mcontext = getApplicationContext();
         ldata = SaveEviroment.getUserLoginData(getApplicationContext());
@@ -163,7 +167,7 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
         Log.d(TAG, "PREF_USER_FAVORITE : " + edata[2]);
         setContentView(R.layout.activity_init);
 
-
+        System.out.println("getKeyHash: " + getKeyHash(this));
         //업데이트 체크
         String version="";
         try {
@@ -285,7 +289,6 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
             }
         }
 */
-
         //Not auth
         progress = (FrameLayout) findViewById(R.id.progress); //로그인
         loginlayout = (FrameLayout) findViewById(R.id.login); //로그인
@@ -1908,6 +1911,23 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
 
     public interface ChangeCallback {
         public void onTaskDone(String result);
+    }
+
+    public static String getKeyHash(final Context context) {
+        PackageInfo packageInfo = getPackageInfo(context, PackageManager.GET_SIGNATURES);
+        if (packageInfo == null)
+            return null;
+
+        for (Signature signature : packageInfo.signatures) {
+            try {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                return Base64.encodeToString(md.digest(), Base64.NO_WRAP);
+            } catch (NoSuchAlgorithmException e) {
+                Log.w(TAG, "Unable to get MessageDigest. signature=" + signature, e);
+            }
+        }
+        return null;
     }
 }
 
