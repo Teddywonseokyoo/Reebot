@@ -106,10 +106,10 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                     //}
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !("".equals(command_signal)) ) {
-                         int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-                        int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
+                        //int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
+                        //int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
                         mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
-                        if (VERSION_MR < 3) {
+                        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
                             //Before version of Android 4.4.2
                             command_signal = duration2count(38028,command_signal);
                             String[] separated =  command_signal.split(",");
@@ -122,7 +122,7 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                             Log.d(TAG, "transmit : " + signal);
                             mCIR.transmit(38028, signal);
                         }
-                        else
+                        else if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
                         {
                             // Later version of Android 4.4.3
                             String[] separated =  command_signal.split(",");
@@ -214,10 +214,10 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
 
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !("".equals(command_signal)) ) {
-                        int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
-                        int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
+                        //int lastIdx = Build.VERSION.RELEASE.lastIndexOf(".");
+                        //int VERSION_MR = Integer.valueOf(Build.VERSION.RELEASE.substring(lastIdx + 1));
                         mCIR = (ConsumerIrManager) context.getSystemService(Context.CONSUMER_IR_SERVICE);
-                        if (VERSION_MR < 3) {
+                        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.KITKAT) {
                              //Before version of Android 4.4.2
                             command_signal = duration2count(38028 ,command_signal);
                             String[] separated =  command_signal.split(",");
@@ -229,7 +229,9 @@ public class VIRCommandMaker  implements VIRCommand.VIRCommandListener {
                             }
                             Log.d(TAG, "transmit : " + signal);
                             mCIR.transmit(38028, signal);
-                        } else {
+                        }
+                        else if(Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT)
+                        {
                             // Later version of Android 4.4.3
                             String[] separated =  command_signal.split(",");
                             int signal[] = new int[ separated.length];
