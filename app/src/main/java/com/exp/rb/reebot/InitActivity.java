@@ -184,93 +184,121 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
         versionmanager.setListener(new RBVersionManager.RBVersionManagerListener() {
             @Override
             public void callbackevent(String msg) {
+
+
                 Log.d(TAG,"get server version : " + msg);
                 try {
-                    JSONObject json = new JSONObject(msg);
-                    if(json.getBoolean("type"))
+
+                    if(msg == null || msg.isEmpty())
                     {
-                        JSONArray jArray = json.getJSONArray("data");
-                        double sversion = 0;
-                        double cversion = Double.parseDouble(finalVersion);
-                        boolean forceupdate = false;
-                        if (jArray.length() == 0) {
+                        AlertDialog.Builder alert_confirm = new AlertDialog.Builder(initActivity);
+                        alert_confirm.setCancelable(false);
+                        alert_confirm.setMessage("통신 오류 : 인터넷 연결이 필요합니다.").setPositiveButton("확인",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                        return;
+                                    }
+                                });
+                        AlertDialog alert = alert_confirm.create();
+                        alert.show();
 
-                        } else {
-                            for (int i = 0; i < jArray.length(); i++) {
-                                sversion =  jArray.getJSONObject(i).getDouble("version");
-                                forceupdate =  jArray.getJSONObject(i).getBoolean("forceupdate");
-                            }
-                        }
-                        if(cversion < sversion && forceupdate == true)
+                    }
+                    else
+                    {
+                        JSONObject json = new JSONObject(msg);
+                        if(json.getBoolean("type"))
                         {
-                            //강업
-                            Log.d(TAG,"You must Need Update");
-                            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(initActivity);
-                            alert_confirm.setCancelable(false);
-                            alert_confirm.setMessage("중요 업데이트가 있습니다.\n업데이트가 반드시 필요합니다.").setPositiveButton("업데이트",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            finish();
-                                            return;
-                                        }
-                                    });
-                            AlertDialog alert = alert_confirm.create();
-                            alert.show();
+                            JSONArray jArray = json.getJSONArray("data");
+                            double sversion = 0;
+                            double cversion = Double.parseDouble(finalVersion);
+                            boolean forceupdate = false;
+                            if (jArray.length() == 0) {
 
-                        }
-                        else if(cversion < sversion && forceupdate == false)
-                        {
-                            //권고
-                            Log.d(TAG,"May you Need Update");
-                            AlertDialog.Builder alert_confirm = new AlertDialog.Builder(initActivity);
-                            alert_confirm.setCancelable(false);
-                            alert_confirm.setMessage("업데이트가 있습니다.\n기능 확장을 위해서 업데이트가 필요합니다.").setNegativeButton("건너 뛰기",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            passflag =true;
-                                            request();
-                                            if (ldata[1] != null && passflag == true) {
-                                                accesstoken = ldata[1];
-                                                //token = ldata[1];
-                                                Log.d(TAG, "TOKEN : " + accesstoken);
-                                                if (!ldata[1].isEmpty()) {
-                                                    RBAuthManager rbAuthManager = new RBAuthManager(initActivity);
-                                                    //토큰 검증
-                                                    rbAuthManager.execute(new RBAuthData(4, "", "", "", "", "", "", "", checktokenurl, accesstoken));
-                                                }
-                                            }
-                                            return;
-                                        }
-                                    }).setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    finish();
+                            } else {
+                                for (int i = 0; i < jArray.length(); i++) {
+                                    sversion =  jArray.getJSONObject(i).getDouble("version");
+                                    forceupdate =  jArray.getJSONObject(i).getBoolean("forceupdate");
                                 }
-                            });
-                            AlertDialog alert = alert_confirm.create();
-                            alert.show();
-                        }
-                        else
-                        {
-                            Log.d(TAG,"version check pass");
-                            passflag =true;
+                            }
+                            if(cversion < sversion && forceupdate == true)
+                            {
+                                //강업
+                                Log.d(TAG,"You must Need Update");
+                                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(initActivity);
+                                alert_confirm.setCancelable(false);
+                                alert_confirm.setMessage("중요 업데이트가 있습니다.\n업데이트가 반드시 필요합니다.").setPositiveButton("업데이트",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                finish();
+                                                return;
+                                            }
+                                        });
+                                AlertDialog alert = alert_confirm.create();
+                                alert.show();
 
-                            if (ldata[1] != null && passflag == true) {
-                                accesstoken = ldata[1];
-                                //token = ldata[1];
-                                Log.d(TAG, "TOKEN : " + accesstoken);
-                                if (!ldata[1].isEmpty()) {
-                                    RBAuthManager rbAuthManager = new RBAuthManager(initActivity);
-                                    //토큰 검증
-                                    rbAuthManager.execute(new RBAuthData(4, "", "", "", "", "", "", "", checktokenurl, accesstoken));
+                            }
+                            else if(cversion < sversion && forceupdate == false)
+                            {
+                                //권고
+                                Log.d(TAG,"May you Need Update");
+                                AlertDialog.Builder alert_confirm = new AlertDialog.Builder(initActivity);
+                                alert_confirm.setCancelable(false);
+                                alert_confirm.setMessage("업데이트가 있습니다.\n기능 확장을 위해서 업데이트가 필요합니다.").setNegativeButton("건너 뛰기",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                passflag =true;
+
+
+                                                request();
+
+
+                                                if (ldata[1] != null && passflag == true) {
+                                                    accesstoken = ldata[1];
+                                                    //token = ldata[1];
+                                                    Log.d(TAG, "TOKEN : " + accesstoken);
+                                                    if (!ldata[1].isEmpty()) {
+                                                        RBAuthManager rbAuthManager = new RBAuthManager(initActivity);
+                                                        //토큰 검증
+                                                        rbAuthManager.execute(new RBAuthData(4, "", "", "", "", "", "", "", checktokenurl, accesstoken));
+                                                    }
+                                                }
+                                                return;
+                                            }
+                                        }).setPositiveButton("업데이트", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        finish();
+                                    }
+                                });
+                                AlertDialog alert = alert_confirm.create();
+                                alert.show();
+                            }
+                            else
+                            {
+                                Log.d(TAG,"version check pass");
+                                passflag =true;
+
+                                if (ldata[1] != null && passflag == true) {
+                                    accesstoken = ldata[1];
+                                    //token = ldata[1];
+                                    Log.d(TAG, "TOKEN : " + accesstoken);
+                                    if (!ldata[1].isEmpty()) {
+                                        RBAuthManager rbAuthManager = new RBAuthManager(initActivity);
+                                        //토큰 검증
+                                        rbAuthManager.execute(new RBAuthData(4, "", "", "", "", "", "", "", checktokenurl, accesstoken));
+                                    }
                                 }
                             }
                         }
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+
+                    Log.d(TAG,"get server version : error" );
                 }
             }
         });
@@ -1854,13 +1882,26 @@ public class InitActivity extends Activity implements RBEnvConnector.RBEnvConnec
                 //비밀번호 환성화 X 비밀번호 체크 X
 
                 //카카오 토큰 검증
-                if(passflag == true) {
+                if(Session.getCurrentSession().getAccessToken().length() > 5) {
                     RBAuthManager rbAuthManager = new RBAuthManager(initActivity);
                     rbAuthManager.execute(new RBAuthData(5, lemail, "", "", "", "", "", "", checkstokenurl, Session.getCurrentSession().getAccessToken()));
+                }
+                else
+                {
+                    UserManagement.requestLogout(new LogoutResponseCallback() {
+                        @Override
+                        public void onCompleteLogout()
+                        {
+                            Log.d(TAG, "KAKAO_LOGOUT : OK");
+                           // finish();
+                        }
+                    });
+
                 }
                 //onClickAccessTokenInfo();
             }
         });
+
     }
 
     private class SessionCallback implements ISessionCallback {
