@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group
+        android:id="@+id/nav_group1"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_booking_management"
+            android:title="프로그램 예약 관리" />
+        <item
+            android:id="@+id/nav_setting"
+            android:title="TV 서비스 공급자 변경" />
+
+    </group>
+
+    <group
+        android:id="@+id/nav_group2"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_send_bug"
+            android:title="버그 리포트" />
+    </group>
+
+</menu>
