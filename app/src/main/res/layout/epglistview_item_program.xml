@@ -2,34 +2,42 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/program_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="5dp">
 
 
     <LinearLayout
         android:id="@+id/EPG"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="8.5"
+        android:gravity="center_vertical"
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/programTitleTextView"
+            android:id="@+id/tv_booking_time"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="6"
-            android:gravity="bottom|left"
-            android:text="EPGContent"
-            android:textColor="@color/program_title_color"
-            android:textIsSelectable="false"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:paddingLeft="10dp"
+            android:text="EPGContent"
+            android:textColor="@color/colorPrimary"
+            android:textIsSelectable="false"
             android:textSize="@dimen/program_title_font_size" />
 
         <TextView
-            android:id="@+id/programTimeTextView"
+            android:id="@+id/tv_programTitle"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="4"
-            android:gravity="top|left"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:text="EPGContent"
+            android:textColor="@color/program_title_color"
+            android:textIsSelectable="false"
+            android:textSize="@dimen/program_title_font_size" />
+
+        <TextView
+            android:id="@+id/tv_programTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:text="TextView"
             android:textColor="@color/program_info_color"
@@ -38,8 +46,10 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical">
 
             <ProgressBar
@@ -53,9 +63,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="20dp"
+                android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:orientation="horizontal">
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/tv_start_time"
@@ -66,17 +76,17 @@
                     android:text="00:00"
                     android:textColor="@color/program_title_color"
                     android:textSize="10sp" />
-                <!--
+
                 <TextView
-                    android:id="@+id/tv_current_time"
+                    android:id="@+id/tv_date"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
-                    android:text="00:00"
+                    android:text="00/00"
                     android:textColor="@color/program_title_color"
                     android:textSize="10sp" />
-                -->
+
                 <TextView
                     android:id="@+id/tv_end_time"
                     android:layout_width="0dp"

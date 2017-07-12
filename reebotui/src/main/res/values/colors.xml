@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="colorPrimary">#0098fb</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#000000</color>
-
-    <color name="program_title_color">#666666</color>
-    <color name="program_info_color">#40a4f5</color>
-</resources>

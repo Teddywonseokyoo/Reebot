@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/ReeBot_170623.iml" filepath="$PROJECT_DIR$/ReeBot_170623.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Reebot.iml" filepath="$PROJECT_DIR$/Reebot.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/reebotui/reebotui.iml" filepath="$PROJECT_DIR$/reebotui/reebotui.iml" />
     </modules>
   </component>
 </project>
