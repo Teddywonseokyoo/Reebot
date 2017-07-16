@@ -12,6 +12,9 @@
 
 ![enter image description here](http://reebot.io:8083/images/gitimage/reebot_concept1_img.png)
 
+
+ [![Watch the video](http://reebot.io:8083/images/gitimage/alexa.png)](https://www.youtube.com/watch?v=HDVQ9UENy9k)
+
  - **프로젝트 참여자** 
 	 - developer : teddy, siverbellj
 	 - design : Ann
