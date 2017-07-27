@@ -63,7 +63,7 @@ public class ReeBotApi {
     private final String URL_REQ_BOOKING_ADD = "https://reebot.io/api/addbooking";
     private final String URL_REQ_BOOKING_REMOVE = "https://reebot.io/api/removebooking";
     private final String URL_REQ_RESET_PWD = "https://reebot.io/auth_api/pwchange";
-
+    private final String URL_REQ_REG_CHECK_DEVICE = "https://reebot.io/auth_api/checkandadddevice";
 
     private  final String URL_REQ_SSID_LIST ="http://192.168.4.1/ssidlist";
     private  final String URL_SET_INFO_DEVICE ="http://192.168.4.1/setting";
@@ -395,7 +395,7 @@ public class ReeBotApi {
     public void setInfoToDev(String ssid,String pass,String pemail,final DeviceCallback deviceCallback)
     {
         ApiManager apiManager = new ApiManager(context);
-        apiManager.setDialogMsg("장치 검색중");
+        apiManager.setDialogMsg("Reebot Network 설정중");
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String respose) {
@@ -405,6 +405,22 @@ public class ReeBotApi {
         String params = "?ssid=" + ssid + "&pass=" + pass + "&tid=" + pemail;
         apiManager.execute(URL_SET_INFO_DEVICE+params,"","");
     }
+
+    public void chkAddDevice(String email,String rbtoken,String token,String location,String catv,String tv,final DeviceCallback deviceCallback)
+    {
+        ApiManager apiManager = new ApiManager(context);
+        apiManager.setDialogMsg("Reebot Network 설정중");
+        apiManager.setApiManagerListener(new ApiManagerListener() {
+            @Override
+            public void onRespose(String respose) {
+                deviceCallback.resAddDevice(resChkAddDevice(respose));
+            }
+        });
+        // "email=" + email + "&password=" + password + "&location=" + location + "&tvbrend=" + tvbrend + "&catvvendor=" + catvvendor + "&pushtoken=" + pushtoken + "&devtoken=" + devtoken;
+        String params = "email=" + email+ "&location=" + location + "&tvbrend=" + tv + "&catvvendor=" + catv + "&devtoken=" + rbtoken;
+        apiManager.execute(URL_REQ_REG_CHECK_DEVICE,params,token);
+    }
+
     private void resCheckVersion(final Activity activity, String respose, final InitCallback initCallback) {
 
         //업데이트 체크
@@ -435,7 +451,6 @@ public class ReeBotApi {
                         forceupdate = jArray.getJSONObject(i).getBoolean("forceupdate");
                     }
                 }
-
                 Log.d(TAG, "checkVersion cversion: " + cversion);
                 Log.d(TAG, "checkVersion sversion: " + sversion);
 
@@ -478,13 +493,10 @@ public class ReeBotApi {
                     initCallback.checkVersionResult(true, "");
                 }
             }
-
         } catch (JSONException e) {
             e.printStackTrace();
-
             initCallback.checkVersionResult(false, e.toString());
         }
-
     }
 
     private void resCheckToken(String msg, InitCallback initCallback, boolean isKakao) {
@@ -1030,6 +1042,24 @@ public class ReeBotApi {
             }
         }
         return  rbtoken;
+    }
+    private boolean resChkAddDevice(String data)
+    {
+        boolean ret=true;
+        if (AppUtil.isEmpty(data)) {
+            ret = false;
+        }
+        else {
+            try {
+                JSONObject jObject = new JSONObject(data);
+                ret = jObject.getBoolean("type");
+            } catch (JSONException e) {
+                ret = false;
+                e.printStackTrace();
+            }
+        }
+
+        return ret;
     }
 
     private String makeBookingAddParameters(EPGItem epgItem, String email, String catv, String pushtoken) {//String email, String catv, String chnum, String pushtoken, String ptitle, String chname, String category, String bookingtime, String programendtime) {
