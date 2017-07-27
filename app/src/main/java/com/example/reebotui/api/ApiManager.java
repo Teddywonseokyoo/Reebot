@@ -73,7 +73,6 @@ public class ApiManager extends AsyncTask<String, String, String> {
         }
     }
 
-
     public void setDialogMsg(String dialogMsg) {
         this.dialogMsg = dialogMsg;
     }
@@ -81,5 +80,4 @@ public class ApiManager extends AsyncTask<String, String, String> {
     public void setApiManagerListener(ApiManagerListener apiManagerListener) {
         this.apiManagerListener = apiManagerListener;
     }
-
 }

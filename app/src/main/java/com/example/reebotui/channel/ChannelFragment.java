@@ -27,6 +27,7 @@ import com.example.reebotui.info.BookmarkInfo;
 import com.example.reebotui.interfaceclass.OnEPGItemClickListener;
 import com.example.reebotui.interfaceclass.OnEPGListCallback;
 import com.example.reebotui.interfaceclass.OnEPGListClickListener;
+import com.example.reebotui.util.AppUtil;
 import com.exp.rb.reebot.R;
 
 import java.util.ArrayList;
@@ -324,7 +325,10 @@ public class ChannelFragment extends Fragment {
         nbookmardList = bookmardList.toString().replace("[", " ");
         nbookmardList = nbookmardList.toString().replace("]", " ");
 
-        reeBotApi.reqBookmarkList(((MainActivity) getActivity()).getCatvRemoveNumber(), nbookmardList, onEPGListCallback);
+        if(!AppUtil.isEmpty(nbookmardList))
+            reeBotApi.reqBookmarkList(((MainActivity) getActivity()).getCatvRemoveNumber(), nbookmardList, onEPGListCallback);
+        else
+            epgListViewAdapter.clearItem();;
     }
 
     private void getEpgList() {

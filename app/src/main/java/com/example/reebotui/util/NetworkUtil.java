@@ -72,7 +72,6 @@ public class NetworkUtil {
 
     }
 
-
     static public String sendQuery(String surl, String params, String accesstoken) {
         HttpURLConnection connection;
         String response = "";
@@ -83,7 +82,6 @@ public class NetworkUtil {
         try {
             URL url = new URL(surl);
             connection = (HttpURLConnection) url.openConnection();
-
             if (connection instanceof HttpsURLConnection) {
                 trustAllHosts();
                 connection = (HttpsURLConnection) url.openConnection();
@@ -92,34 +90,20 @@ public class NetworkUtil {
                     public boolean verify(String s, SSLSession sslSession) {
                         Log.d(TAG, "NetworkUtil verify s: " + s);
                         Log.d(TAG, "NetworkUtil verify sslSession: " + sslSession);
-
                         HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
                         return hv.verify("reebot.io", sslSession);
-
-//                    return true;
                     }
                 });
-
             }
-
-//            HttpURLConnection connection = httpsURLConnection;
-
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
             if (accesstoken != null && !accesstoken.isEmpty()) {
                 connection.setRequestProperty("authorization", accesstoken);
             }
-
             connection.setRequestMethod("POST");
             connection.setDoInput(true);
             connection.setDoOutput(true);
-
-//            List<BasicNameValuePair> nameValuePairs = new ArrayList<BasicNameValuePair>(2);
-//            nameValuePairs.add(new BasicNameValuePair("userId", "saltfactory"));
-//            nameValuePairs.add(new BasicNameValuePair("password", "password"));
-
             OutputStream outputStream = connection.getOutputStream();
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-//            bufferedWriter.write(getURLQuery(nameValuePairs));
             bufferedWriter.write(params);
             bufferedWriter.flush();
             bufferedWriter.close();
@@ -138,14 +122,9 @@ public class NetworkUtil {
                 }
                 bufferedReader.close();
             }
-
             connection.disconnect();
-
-//            Log.d(TAG, responseStringBuilder.toString());
-
             response = responseStringBuilder.toString();
             Log.d(TAG, "NetworkUtil response : " + response);
-
             return response;
         } catch (MalformedURLException e) {
             e.printStackTrace();
@@ -154,8 +133,6 @@ public class NetworkUtil {
             e.printStackTrace();
             return "network error: " + e.toString();
         }
-
-
     }
 
     private static void trustAllHosts() {
@@ -164,7 +141,6 @@ public class NetworkUtil {
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return new java.security.cert.X509Certificate[]{};
             }
-
             @Override
             public void checkClientTrusted(
                     java.security.cert.X509Certificate[] chain,
@@ -173,7 +149,6 @@ public class NetworkUtil {
                 // TODO Auto-generated method stub
 
             }
-
             @Override
             public void checkServerTrusted(
                     java.security.cert.X509Certificate[] chain,
@@ -193,28 +168,5 @@ public class NetworkUtil {
             e.printStackTrace();
         }
     }
-
-//    private String getURLQuery(List<BasicNameValuePair> params){
-//        StringBuilder stringBuilder = new StringBuilder();
-//        boolean first = true;
-//
-//        for (BasicNameValuePair pair : params)
-//        {
-//            if (first)
-//                first = false;
-//            else
-//                stringBuilder.append("&");
-//
-//            try {
-//                stringBuilder.append(URLEncoder.encode(pair.getName(), "UTF-8"));
-//                stringBuilder.append("=");
-//                stringBuilder.append(URLEncoder.encode(pair.getValue(), "UTF-8"));
-//            } catch (UnsupportedEncodingException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//        return stringBuilder.toString();
-//    }
 
 }

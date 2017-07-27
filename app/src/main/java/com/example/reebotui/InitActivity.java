@@ -65,6 +65,12 @@ public class InitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        Intent intent = new Intent(InitActivity.this, DeviceActivity.class);
+        intent.putExtra("email", email); //Optional parameters
+        intent.putExtra("sid", ""); //Optional parameters
+        startActivityForResult(intent, ExtraInfo.INTENT_CODE_DEVICE);
+
+        /*
         //System.out.println("getKeyHash: " + AppUtil.getKeyHash(this));
 
         Bundle bundle = getIntent().getExtras();
@@ -78,6 +84,7 @@ public class InitActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_init);
 
+
         cl_login = findViewById(R.id.cl_login);
         cl_login.setVisibility(View.INVISIBLE);
 
@@ -88,7 +95,9 @@ public class InitActivity extends AppCompatActivity {
         //kakao
         sessionCallback = new SessionCallback();
         Session.getCurrentSession().addCallback(sessionCallback);
-        Session.getCurrentSession().checkAndImplicitOpen();
+        //Session.getCurrentSession().checkAndImplicitOpen();
+
+        */
     }
 
     @Override
@@ -236,7 +245,6 @@ public class InitActivity extends AppCompatActivity {
 
                 AlertDialogUtil.showDialog(InitActivity.this, "", "회원정보가 없습니다. 회원 가입 후 이용해주세요.", "취소", "회원가입", onClickListener);
             }
-
         }
 
         @Override
@@ -247,8 +255,6 @@ public class InitActivity extends AppCompatActivity {
                 Toast.makeText(InitActivity.this, msg, Toast.LENGTH_SHORT).show();
             }
         }
-
-
     };
 
     private void setLoginUi() {
@@ -305,7 +311,6 @@ public class InitActivity extends AppCompatActivity {
                 findpw();
             }
         });
-
     }
 
     private void findpw() {
@@ -339,6 +344,8 @@ public class InitActivity extends AppCompatActivity {
 
 
     private void moveJoin(boolean isKakao) {
+
+
         Intent intent = new Intent(InitActivity.this, JoinActivity.class);
         intent.putExtra("isKakao", isKakao);
         if (isKakao) {
@@ -346,6 +353,9 @@ public class InitActivity extends AppCompatActivity {
             intent.putExtra("atoken", atoken);
         }
         startActivityForResult(intent, ExtraInfo.INTENT_CODE_JOIN);
+
+
+
     }
 
     private void checkToken() {
@@ -363,11 +373,14 @@ public class InitActivity extends AppCompatActivity {
                 reeBotApi.checkToken(accesstoken, initCallback);
 //                reeBotApi.authToken(new RBAuthData(ExtraInfo.AUTH_MODE_CHECK_TOKEN, "", "", "", "", "", "", "", "", accesstoken));
             } else {
-                //토큰없음
-                setLoginUi();
+                if(!Session.getCurrentSession().checkAndImplicitOpen()) {
+                    setLoginUi();
+                }
             }
         } else {
-            setLoginUi();
+            if(!Session.getCurrentSession().checkAndImplicitOpen()) {
+                setLoginUi();
+            }
         }
         passflag = true;
     }
@@ -429,6 +442,4 @@ public class InitActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }

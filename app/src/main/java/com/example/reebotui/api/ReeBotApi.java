@@ -7,6 +7,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import com.example.reebotui.epglist.EPGItem;
 import com.example.reebotui.epglist.EPGListViewItem;
@@ -19,6 +20,7 @@ import com.example.reebotui.interfaceclass.BookingCallback;
 import com.example.reebotui.interfaceclass.InitCallback;
 import com.example.reebotui.interfaceclass.JoinCallback;
 import com.example.reebotui.interfaceclass.OnEPGListCallback;
+import com.example.reebotui.interfaceclass.DeviceCallback;
 import com.example.reebotui.interfaceclass.SignalCallback;
 import com.example.reebotui.util.AlertDialogUtil;
 import com.example.reebotui.util.AppUtil;
@@ -61,6 +63,11 @@ public class ReeBotApi {
     private final String URL_REQ_BOOKING_ADD = "https://reebot.io/api/addbooking";
     private final String URL_REQ_BOOKING_REMOVE = "https://reebot.io/api/removebooking";
     private final String URL_REQ_RESET_PWD = "https://reebot.io/auth_api/pwchange";
+
+
+    private  final String URL_REQ_SSID_LIST ="http://192.168.4.1/ssidlist";
+    private  final String URL_SET_INFO_DEVICE ="http://192.168.4.1/setting";
+
 
     private Context context;
     //    private ApiManager apiManager;
@@ -162,7 +169,6 @@ public class ReeBotApi {
     public void reqKakaoJoin(final RBAuthData rbAuthData, final JoinCallback joinCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("회원 가입 중입니다..");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String respose) {
@@ -213,82 +219,6 @@ public class ReeBotApi {
 
     }
 
-
-//    public void authToken(RBAuthData rbAuthData) {
-//        final int mode = rbAuthData.getMode();
-//        ApiManager apiManager = new ApiManager(context);
-////        if (mode == 3)
-////            asyncDialog.setMessage("장치 연결 중입니다.");
-//        if (mode == ExtraInfo.AUTH_MODE_EMAIL_JOIN || mode == ExtraInfo.AUTH_MODE_KAKAO_JOIN) {
-//            apiManager.setDialogMsg("회원 가입 중입니다..");
-//        } else {
-//            apiManager.setDialogMsg("인증 요청 중입니다..");
-//        }
-////        RBAuthData rbAuthData = new RBAuthData(AUTH_MODE_4444, "", "", "", "", "", "", "", URL_CHECK_TOKEN, accesstoken);
-//
-//        apiManager.setApiManagerListener(new ApiManagerListener() {
-//            @Override
-//            public void onRespose(String respose) {
-////                if (mode == ExtraInfo.AUTH_MODE_EMAIL_LOGIN) {
-//////                    Log.d(TAG, "RBAuthLoginTaskResult : " + result);
-//////                    rbAuthManagerListener.RBAuthLoginTaskResult(result);
-////                    eventCallback.onEvent(InitActivity.EVENT_REQ_EMAIL_LOGIN_SUCCESS, respose);
-////                } else
-//                if (mode == ExtraInfo.AUTH_MODE_EMAIL_JOIN) {
-////                    rbAuthManagerListener.RBAuthSinginTaskResult(result);
-//                    eventCallback.onEvent(JoinActivity.EVENT_REQ_EMAIL_JOIN_SUCCESS, respose);
-//                } else if (mode == ExtraInfo.AUTH_MODE_CHECK_AND_ADD_DEVICE) {
-////                    rbAuthManagerListener.RBAuthCheckdevTaskResult(result);
-////                } else if (mode == ExtraInfo.AUTH_MODE_CHECK_TOKEN) {
-////                    eventCallback.onEvent(InitActivity.EVENT_REQ_CHECK_TOKEN_SUCCESS, respose);
-//////                    if (callback != null) callback.onTaskDone(result);
-////                } else if (mode == ExtraInfo.AUTH_MODE_KAKAO_AUTH) {
-////
-////                    eventCallback.onEvent(InitActivity.EVENT_REQ_KAKAO_AUTH_SUCCESS, respose);
-//////                    rbAuthManagerListener.RBAuthChecktokenTaskResult(result);
-//                } else if (mode == ExtraInfo.AUTH_MODE_KAKAO_JOIN) {
-//                    eventCallback.onEvent(JoinActivity.EVENT_REQ_KAKAO_JOIN_SUCCESS, respose);
-//
-////                    rbAuthManagerListener.RBAuthSinginTaskResult(result);
-//                } else {
-//
-//                }
-//            }
-//        });
-//
-//        switch (mode) {
-//            case ExtraInfo.AUTH_MODE_EMAIL_LOGIN:
-//                //URL_LOGIN
-////                ret = regMember(makeparam(params[0].email, params[0].password), params[0].url, params[0].token);
-//                apiManager.execute(URL_LOGIN, makeAuthParam(rbAuthData.getEmail(), rbAuthData.getPassword()), rbAuthData.getToken());
-//                break;
-//            case ExtraInfo.AUTH_MODE_EMAIL_JOIN:
-//                //URL_SIGN_IN
-//                apiManager.execute(URL_SIGN_IN, makeJoinParam(mode, rbAuthData.getEmail(), rbAuthData.getPassword(), rbAuthData.getLocation(), rbAuthData.getTvbrend(), rbAuthData.getCatvvendor(), rbAuthData.getPushtoken()), rbAuthData.getToken());
-////                ret = regMember(makeparam(params[0].email, params[0].password, params[0].location, params[0].tvbrend, params[0].catvvendor, params[0].pushtoken), params[0].url, params[0].token);
-//                break;
-//            case ExtraInfo.AUTH_MODE_CHECK_AND_ADD_DEVICE:
-//                //URL_CHECK_AND_ADD_DEVICE
-//                break;
-//            case ExtraInfo.AUTH_MODE_CHECK_TOKEN:
-//                apiManager.execute(URL_CHECK_TOKEN, "", rbAuthData.getToken());
-//                break;
-//            case ExtraInfo.AUTH_MODE_KAKAO_AUTH:
-//                //URL_CHECK_KAKAO_TOKEN
-//                String param = "email=" + rbAuthData.getEmail();
-//                apiManager.execute(URL_CHECK_KAKAO_TOKEN, param, rbAuthData.getToken());
-//
-//                break;
-//            case ExtraInfo.AUTH_MODE_KAKAO_JOIN:
-//                //URL_SIGN_IN
-//                apiManager.execute(URL_SIGN_IN, makeJoinParam(mode, rbAuthData.getEmail(), rbAuthData.getPassword(), rbAuthData.getLocation(), rbAuthData.getTvbrend(), rbAuthData.getCatvvendor(), rbAuthData.getPushtoken()), rbAuthData.getAtoken());
-//                break;
-//
-//        }
-//
-//    }
-
-
     public void reqSignalList(RBIRParamData rbirParamData, final SignalCallback signalCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("리모컨 목록을 가져오는 중입니다.");
@@ -305,9 +235,7 @@ public class ReeBotApi {
     public void reqIRSignal(RBIRParamData rbirParamData, final SignalCallback signalCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("리모컨 신호 다운로드 중입니다.");
-
         final String signalFileName = makefilename(rbirParamData.id, rbirParamData.location, rbirParamData.param1);
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
@@ -317,88 +245,10 @@ public class ReeBotApi {
         apiManager.execute(URL_REQ_IRSIGNAL, makeSignalParam(rbirParamData.param1, rbirParamData.param2, rbirParamData.param3), null);
     }
 
-//    public void reqSignalList(RBIRParamData rbirParamData) {
-//        ApiManager apiManager = new ApiManager(context);
-//        final int mode = rbirParamData.mode;
-//
-//        if (mode == ExtraInfo.REQ_MODE_REMOTE_SIGNAL) {
-//            apiManager.setDialogMsg("리모컨 신호 다운로드 중입니다.");
-//        } else {
-//            apiManager.setDialogMsg("리모컨 목록을 가져오는 중입니다.");
-//        }
-//
-//        final String signalFileName = makefilename(rbirParamData.id, rbirParamData.location, rbirParamData.param1);
-//
-//        apiManager.setApiManagerListener(new ApiManagerListener() {
-//            @Override
-//            public void onRespose(String response) {
-//                if (mode == ExtraInfo.REQ_MODE_REMOTE_SIGNAL) {
-//                    eventCallback.onEvent(JoinActivity.EVENT_REQ_REMOTE_SIGNAL_SUCCESS, response);
-////                    if(mode == 1){
-////                        rbIRGetSignalListener.RBIRGetListSignaTaskResult(result);
-////                        if(callback != null)callback.onTaskDone(result);
-////                    }
-////                    else
-////                    {
-////                        rbIRGetSignalListener.RBIRGetSignaTaskResult(result);
-////                        if(callback != null) callback.onTaskDone(result);
-////                    }
-//                } else if (mode == ExtraInfo.REQ_MODE_REMOTE_IR_SIGNAL_SBOX || mode == ExtraInfo.REQ_MODE_REMOTE_IR_SIGNAL_TV) {
-//                    if (!AppUtil.isEmpty(response)) {
-//                        String extr = context.getFilesDir().getPath().toString();
-//                        File mFolder = new File(extr + "/irsignal");
-//                        if (!mFolder.exists()) {
-//                            Log.d(TAG, "Make Folder");
-//                            mFolder.mkdir();
-//                        } else {
-//                            Log.d(TAG, "Folder");
-//                        }
-//                        Log.d(TAG, "filenmae : " + signalFileName);
-//                        File file = new File(mFolder.getAbsolutePath(), signalFileName);
-//                        try {
-//                            Log.d(TAG, "JSON : " + response);
-//                            file.createNewFile();
-//                            FileOutputStream fOut = new FileOutputStream(file);
-//                            OutputStreamWriter myOutWriter = new OutputStreamWriter(fOut);
-//                            myOutWriter.append(response);
-//                            myOutWriter.close();
-//                            fOut.flush();
-//                            fOut.close();
-////                            eventCallback.onEvent(mode, response);
-//                        } catch (IOException e) {
-//                            e.printStackTrace();
-//                            response = "error";
-//                            Log.e(TAG + " Exception", "File write failed: " + e.toString());
-////                            eventCallback.onEvent(mode, response);
-//                        }
-//                    } else {
-//                        Log.d(TAG, "response is null");
-////                        eventCallback.onEvent(mode, response);
-//                    }
-////                    eventCallback.onEvent(mode, response);
-//                }
-//            }
-//        });
-//
-//        switch (mode) {
-//            case ExtraInfo.REQ_MODE_REMOTE_SIGNAL:
-//                apiManager.execute(URL_REQ_SIGNAL_LIST, makeSignalParam(rbirParamData.param1, "", ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_REMOTE_IR_SIGNAL_SBOX:
-//            case ExtraInfo.REQ_MODE_REMOTE_IR_SIGNAL_TV:
-////                signalFileName = makefilename(rbirParamData.id, rbirParamData.location, rbirParamData.param1);
-////                Log.d(TAG, "makeParameters : " + params[0].mode + params[0].param1 + params[0].param2);
-////                ret = getsiganl(params[0].url, params[0].mode, makeParameters(params[0].mode, params[0].param1, params[0].param2, params[0].param3));
-//                apiManager.execute(URL_REQ_IRSIGNAL, makeSignalParam(rbirParamData.param1, rbirParamData.param2, rbirParamData.param3), null);
-//                break;
-//        }
-//    }
 
     public void reqChangeService(String id, String tvb, String catv, String token, final SignalCallback signalCallback) {
         ApiManager apiManager = new ApiManager(context);
-
         apiManager.setDialogMsg("변경 중입니다.");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
@@ -427,7 +277,6 @@ public class ReeBotApi {
     public void reqAllEpgList(final String catvb, final OnEPGListCallback onEPGListCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("편성표 가져오기 중입니다.");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
@@ -443,10 +292,8 @@ public class ReeBotApi {
     }
 
     public void reqBookmarkList(final String catvb, String bookmarklist, final OnEPGListCallback onEPGListCallback) {
-
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("편성표 가져오기 중입니다.");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
@@ -456,7 +303,6 @@ public class ReeBotApi {
 
         System.out.println("reqBookmarkList catvb: " + catvb);
         System.out.println("reqBookmarkList bookmarklist: " + bookmarklist);
-
         apiManager.execute(URL_REQ_EPG_BOOKMARK, makeEpgParameters(catvb, "", bookmarklist, ""), null);
 
     }
@@ -464,17 +310,16 @@ public class ReeBotApi {
     public void reqEpgProgramList(final String catvb, String chnum, final OnEPGListCallback onEPGListCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("편성표 가져오기 중입니다.");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
+
                 onEPGListCallback.requestEPGProgramList(getProgramList(response, catvb));
             }
         });
 
         System.out.println("reqEpgProgramList catvb: " + catvb);
         System.out.println("reqEpgProgramList chnum: " + chnum);
-
         apiManager.execute(URL_REQ_EPG_CHANNEL, makeEpgParameters(catvb, chnum, "", ""), null);
 
     }
@@ -482,7 +327,6 @@ public class ReeBotApi {
     public void reqSearchEpgList(final String catvb, String searchstring, final OnEPGListCallback onEPGListCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("편성표 가져오기 중입니다.");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String response) {
@@ -492,74 +336,12 @@ public class ReeBotApi {
 
         System.out.println("reqSearchEpgList catvb: " + catvb);
         System.out.println("reqSearchEpgList searchstring: " + searchstring);
-
         apiManager.execute(URL_REQ_EPG_SEARCH, makeEpgParameters(catvb, "", "", searchstring), null);
-
-//        switch (mode) {
-//            case ExtraInfo.REQ_MODE_EPGLIST_ALL:
-//                apiManager.execute(URL_REQ_EPG_ALL, makeEpgParameters(epgParamData.catvb, "", "", ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_CHANNEL:
-//                apiManager.execute(URL_REQ_EPG_CHANNEL, makeEpgParameters(epgParamData.catvb, epgParamData.chnum, "", ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_BOOKMARK:
-//                apiManager.execute(URL_REQ_EPG_BOOKMARK, makeEpgParameters(epgParamData.catvb, epgParamData.chnum, epgParamData.bookmarklist, ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_SEARCH:
-//                apiManager.execute(URL_REQ_EPG_SEARCH, makeEpgParameters(epgParamData.catvb, "", "", epgParamData.searchstring), null);
-//                break;
-//        }
-
     }
-
-//    public void reqEpgList(EPGParamData epgParamData) {
-//        final int mode = epgParamData.mode;
-//
-//        ApiManager apiManager = new ApiManager(context);
-//        apiManager.setDialogMsg("편성표 가져오기 중입니다.");
-//
-//        apiManager.setApiManagerListener(new ApiManagerListener() {
-//            @Override
-//            public void onRespose(String response) {
-////                eventCallback.onEvent(JoinActivity.EVENT_REQ_REMOTE_SIGNAL_SUCCESS, response);
-//                if (mode == ExtraInfo.REQ_MODE_EPGLIST_ALL) {
-//                    eventCallback.onEvent(ExtraInfo.REQ_MODE_EPGLIST_ALL, response);
-//                } else if (mode == ExtraInfo.REQ_MODE_EPGLIST_CHANNEL) {
-//                    eventCallback.onEvent(ExtraInfo.REQ_MODE_EPGLIST_CHANNEL, response);
-//                } else if (mode == ExtraInfo.REQ_MODE_EPGLIST_BOOKMARK) {
-//                    eventCallback.onEvent(ExtraInfo.REQ_MODE_EPGLIST_BOOKMARK, response);
-//                } else if (mode == ExtraInfo.REQ_MODE_EPGLIST_SEARCH) {
-//                    eventCallback.onEvent(ExtraInfo.REQ_MODE_EPGLIST_SEARCH, response);
-//                }
-//            }
-//        });
-//
-//        System.out.println("reqEpgList catvb: " + epgParamData.catvb);
-//        System.out.println("reqEpgList chnum: " + epgParamData.chnum);
-//
-//        switch (mode) {
-//            case ExtraInfo.REQ_MODE_EPGLIST_ALL:
-//                apiManager.execute(URL_REQ_EPG_ALL, makeEpgParameters(epgParamData.catvb, "", "", ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_CHANNEL:
-//                apiManager.execute(URL_REQ_EPG_CHANNEL, makeEpgParameters(epgParamData.catvb, epgParamData.chnum, "", ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_BOOKMARK:
-//                apiManager.execute(URL_REQ_EPG_BOOKMARK, makeEpgParameters(epgParamData.catvb, epgParamData.chnum, epgParamData.bookmarklist, ""), null);
-//                break;
-//            case ExtraInfo.REQ_MODE_EPGLIST_SEARCH:
-//                apiManager.execute(URL_REQ_EPG_SEARCH, makeEpgParameters(epgParamData.catvb, "", "", epgParamData.searchstring), null);
-//                break;
-//        }
-//
-//    }
-
 
     public void reqBookingList(String email, String token, final BookingCallback bookingCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("예약 정보 가져오는 중");
-
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String respose) {
@@ -575,7 +357,6 @@ public class ReeBotApi {
     public void reqBookingAdd(final EPGItem epgItem, String email, String catv, String pushtoken, String token, final BookingCallback bookingCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("예약 정보 등록 중");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String respose) {
@@ -590,20 +371,40 @@ public class ReeBotApi {
     public void reqBookingRemove(final EPGListViewItem epgListViewItem, String token, final BookingCallback bookingCallback) {
         ApiManager apiManager = new ApiManager(context);
         apiManager.setDialogMsg("예약 정보 삭제 중");
-
         apiManager.setApiManagerListener(new ApiManagerListener() {
             @Override
             public void onRespose(String respose) {
-//                eventCallback.onEvent(ExtraInfo.REQ_MODE_BOOKING_REMOVE, respose);
                 bookingCallback.removeBookingChannel(epgListViewItem, true);
             }
         });
         String param = "id=" + epgListViewItem.getBookingId();
-
         apiManager.execute(URL_REQ_BOOKING_REMOVE, param, token);
     }
-
-
+    public void reqSSIDList(final ArrayAdapter<String> adapterfinal,final DeviceCallback deviceCallback)
+    {
+        ApiManager apiManager = new ApiManager(context);
+        apiManager.setDialogMsg("장치 검색중");
+        apiManager.setApiManagerListener(new ApiManagerListener() {
+            @Override
+            public void onRespose(String respose) {
+                deviceCallback.comSSIDList(makSSIDdList(adapterfinal,respose));
+            }
+        });
+        apiManager.execute(URL_REQ_SSID_LIST,"", "");
+    }
+    public void setInfoToDev(String ssid,String pass,String pemail,final DeviceCallback deviceCallback)
+    {
+        ApiManager apiManager = new ApiManager(context);
+        apiManager.setDialogMsg("장치 검색중");
+        apiManager.setApiManagerListener(new ApiManagerListener() {
+            @Override
+            public void onRespose(String respose) {
+                deviceCallback.resSaveInfoToDevice(getReebotToken(respose));
+            }
+        });
+        String params = "?ssid=" + ssid + "&pass=" + pass + "&tid=" + pemail;
+        apiManager.execute(URL_SET_INFO_DEVICE+params,"","");
+    }
     private void resCheckVersion(final Activity activity, String respose, final InitCallback initCallback) {
 
         //업데이트 체크
@@ -680,9 +481,7 @@ public class ReeBotApi {
 
         } catch (JSONException e) {
             e.printStackTrace();
-//            if (eventCallback != null) {
-//                eventCallback.onEvent(InitActivity.EVENT_REQ_CHECK_VERSION_FAIL, e.toString());
-//            }
+
             initCallback.checkVersionResult(false, e.toString());
         }
 
@@ -733,11 +532,6 @@ public class ReeBotApi {
                 } else {
                     //토큰검증 실패
                     String data = jObject.getString("data");
-//                    if ("not found user".equals(data)) {
-//                        Log.d(TAG, "카카오 토큰 검증 후 회원 가입 요망");
-//                        initCallback.checkTokenResult(false, data, null, isKakao);
-//                        return;
-//                    }
                     initCallback.checkTokenResult(false, data, null, isKakao);
                 }
             } catch (JSONException e) {
@@ -778,23 +572,6 @@ public class ReeBotApi {
                     Log.d(TAG, "rbtoken : " + rbtoken);
                     Log.d(TAG, "resEmailLogin : " + msg);
                     Log.d(TAG, "Auth ok");
-
-//                    Intent mainintent = new Intent(InitActivity.this, MainActivity.class);
-//                    //String[] separated = lemail.split("@");
-//                    //String pemail = separated[0]; // this will contain "Fruit"
-//                    mainintent.putExtra("email", email); //Optional parameters
-//                    mainintent.putExtra("sid", rbtoken); //Optional parameters
-//                    mainintent.putExtra("tvb", tvbrend); //Optional parameters
-//                    mainintent.putExtra("catvb", catvvendor); //Optional parameters
-//                    mainintent.putExtra("acesstoken", accesstoken); //Optional parameters //PREF_USER_TOKEN
-//                    if ("booking".equals(RbLaunchType)) {
-//                        mainintent.putExtra("RbLaunchType", RbLaunchType);
-//                        mainintent.putExtra("BookingBody", BookingBody);
-//                        mainintent.putExtra("BookingChnum", BookingChnum);
-//
-//
-//                    }
-//                    startActivityForResult(mainintent, ExtraInfo.INTENT_CODE_MAIN);
                     UserInfo userInfo = new UserInfo(email, tvbrend, catvvendor, token, "", rbtoken, location);
                     initCallback.emailLoginResult(true, "", userInfo);
 
@@ -826,23 +603,7 @@ public class ReeBotApi {
                 Log.d(TAG, "resEmailLogin : " + msg);
                 Log.d(TAG, "Auth ok");
             } else {
-
                 initCallback.emailLoginResult(false, "", null);
-//                DialogInterface.OnClickListener onClickListener = new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        switch (which) {
-//                            case DialogInterface.BUTTON_POSITIVE:
-//                                moveJoin(false);
-//                                break;
-//                            case DialogInterface.BUTTON_NEGATIVE:
-//
-//                                break;
-//                        }
-//                    }
-//                };
-//
-//                AlertDialogUtil.showDialog(InitActivity.this, "", "회원정보가 없습니다. 회원 가입 후 이용해주세요.", "취소", "회원가입", onClickListener);
             }
 
         } catch (JSONException e) {
@@ -894,22 +655,6 @@ public class ReeBotApi {
 
                 signalCallback.getSignalList(true, jsonobject.getString("type2"), makelist(jsonobject.getJSONArray("data")));
 
-//                if ("signaltv".equals(jsonobject.getString("type2"))) {
-//
-//                    if (makelist(jsonobject.getJSONArray("data"), adapter_tv) == true) {
-//                        adapter_tv.add("TV 제조사 선택");
-//                        sp_tvbrand.setAdapter(adapter_tv);
-//                        sp_tvbrand.setSelection(adapter_tv.getCount());
-//                    }
-//
-//                } else {
-//                    if (makelist(jsonobject.getJSONArray("data"), adapter_catv) == true) {
-//                        adapter_catv.add("TV 방송 사업자 선택");
-//                        sp_cabletvbrend.setAdapter(adapter_catv);
-//                        sp_cabletvbrend.setSelection(adapter_catv.getCount());
-//                    }
-//
-//                }
 
             } else {
                 //리스트 가져오기 실패
@@ -923,6 +668,9 @@ public class ReeBotApi {
 //            AlertDialogUtil.showDialog(this, "인터넷 연결 상태를 확인해주세요.");
         }
     }
+
+
+
 
     private void resIRSignal(String response, String signalFileName, SignalCallback signalCallback) {
         if (!AppUtil.isEmpty(response)) {
@@ -1130,15 +878,6 @@ public class ReeBotApi {
                         String starttime = oneObject.getString("bookingtime");
                         String endtime = oneObject.getString("programendtime");
 
-//                        //20170621121000
-//                        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddhhmmss");
-//                        SimpleDateFormat dateFormat2 = new SimpleDateFormat("MM/dd hh:mm");
-
-//                        try {
-//                            Date date = dateFormat.parse(starttime);
-//                            starttime = dateFormat2.format(date);
-//                        } catch (ParseException e) {
-//                        }
 
 
                         String id = oneObject.getString("_id");
@@ -1153,11 +892,6 @@ public class ReeBotApi {
                         String chlongo = chname.toString();
                         chlongo = chlongo.replace(" ", "");
 
-//                        String bookingprogram = "[" + starttime +"] "+ title +"\n(" +chname  +" / "+chnum  +")";
-//                        RBBookingListViewItem item =new RBBookingListViewItem();
-//                        item.setId(id);
-//                        item.setText(bookingprogram);
-//                        bookinglistitems.add(item);
 
 
                         EPGItem item = new EPGItem(title, entryInfo, chnum, category, category, starttime, endtime, chname);
@@ -1216,20 +950,6 @@ public class ReeBotApi {
                 }
             }
         }
-//        if (mode == 1)//for get list
-//        {
-//            ret = "dev=" + dev;
-//        } else if (mode == 2)  //for get siganl
-//        {
-//            if (brend2.isEmpty()) {
-//                ret = "dev=" + dev + "&brend1=" + brend1;
-//            } else {
-//                ret = "dev=" + dev + "&brend1=" + brend1 + "&brend2=" + brend2;
-//            }
-//        } else {
-//            ret = "";
-//        }
-        //Log.d(TAG, "makeParameters : " + ret );
         return ret;
     }
 
@@ -1259,6 +979,59 @@ public class ReeBotApi {
         return ret;
     }
 
+    private  boolean makSSIDdList( ArrayAdapter<String> adapter,String data)
+    {
+        boolean ret = true;
+        if (data.contains("error")) {
+            //error : Check
+            if (data.contains("timeout")) {
+                adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+                adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+            } else {
+                adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+                adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+            }
+            ret = false;
+        }
+        else {
+            try {
+                JSONObject jObject = new JSONObject(data);
+                JSONArray jArray = jObject.getJSONArray("SSID");
+                if (jArray.length() == 0) {
+                    adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+                    adapter.add("Reebot-xxxxxx로 WIFI를 연결 필요.");
+                } else {
+                    for (int i = 0; i < jArray.length(); i++) {
+                        JSONObject oneObject = jArray.getJSONObject(i);
+                        Log.e(TAG, "aJsonString Key : " + oneObject.names().getString(0));
+                        adapter.add(oneObject.names().getString(0));
+                    }
+                    adapter.add("HOME WIFI SSID 선택");
+                }
+            } catch (JSONException e) {
+                ret = false;
+                e.printStackTrace();
+            }
+        }
+        return ret;
+    }
+
+    private String getReebotToken(String data) {
+        String rbtoken ="";
+        if (AppUtil.isEmpty(data)) {
+            //rbtoken ="";
+        }
+        else {
+            try {
+                JSONObject jObject = new JSONObject(data);
+                rbtoken = jObject.getString("rbtoken");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return  rbtoken;
+    }
+
     private String makeBookingAddParameters(EPGItem epgItem, String email, String catv, String pushtoken) {//String email, String catv, String chnum, String pushtoken, String ptitle, String chname, String category, String bookingtime, String programendtime) {
         String ret = null;
         //Date date = new Date();
@@ -1269,28 +1042,11 @@ public class ReeBotApi {
         return ret;
     }
 
-//    private String makeEpgParameters(String catvb, String chnum) {
-//        String ret = null;
-//        Date date = new Date();
-//        DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddHHmmss", Locale.getDefault());
-//        //dateFormatter.format(date).toString();
-//        String[] catv = catvb.split("_");
-//        //수정 필요 (통합)
-////        ret = "catvb=epgfor"+catv[1]+"&reqtime=20170524200000"+"&chnum="+chnum;
-//
-//        String tempCatv = catvb;
-//
-//        if (catv.length > 1) {
-//            tempCatv = catv[1];
-//        }
-//        ret = "catvb=epgfor" + tempCatv + "&reqtime=" + dateFormatter.format(date).toString() + "&chnum=" + chnum;
-//        Log.d(TAG, "queryEPGListJSON :" + ret);
-//        return ret;
-//    }
-
     private String makefilename(String id, String location, String devicename) {
         String filename = id + "_" + location + "_" + devicename + ".json";
         return filename;
     }
+
+
 
 }

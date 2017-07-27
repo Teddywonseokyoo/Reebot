@@ -6,6 +6,7 @@ package com.example.reebotui.info;
 
 public class ExtraInfo {
 
+    public static final int INTENT_CODE_DEVICE = 103;
     public static final int INTENT_CODE_JOIN = 102;
     public static final int INTENT_CODE_MAIN = 101;
     public static final int INTENT_CODE_SETTING_CATV = 103;
